@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STRATA — Strategic Brand Consultancy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAFAF8;
+  --ink:#111110;
+  --red:#E8380D;
+  --gray:#6E6E6A;
+  --line:#E3E3DF;
+  --card:#FFFFFF;
+  --dark:#141412;
+  --display:'Instrument Sans',sans-serif;
+  --body:'Inter',sans-serif;
+  --mono:'JetBrains Mono',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--paper);color:var(--ink);
+  font-family:var(--body);overflow-x:hidden;
+  font-size:16px;line-height:1.6;
+}
+::selection{background:var(--red);color:#fff}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer}
+
+/* background grid */
+.gridlines{
+  position:fixed;inset:0;z-index:0;pointer-events:none;
+  display:flex;justify-content:space-between;padding:0 4vw;
+}
+.gridlines span{width:1px;background:var(--line);opacity:.55}
+main{position:relative;z-index:1}
+
+/* ---------- INTRO ---------- */
+.intro{
+  position:fixed;inset:0;background:var(--paper);z-index:9000;
+  display:flex;align-items:center;justify-content:center;flex-direction:column;gap:26px;
+  transition:opacity .6s ease .2s, visibility .6s .2s;
+}
+body.ready .intro{opacity:0;visibility:hidden}
+.intro .mark{
+  font-family:var(--display);font-weight:700;font-size:1.6rem;letter-spacing:-.02em;
+  opacity:0;animation:fadeUp .7s ease .1s forwards;
+}
+.intro .mark i{color:var(--red);font-style:normal}
+.intro .rule{
+  width:min(320px,60vw);height:1px;background:var(--line);position:relative;overflow:hidden;
+}
+.intro .rule::after{
+  content:'';position:absolute;inset:0;background:var(--red);
+  transform:scaleX(0);transform-origin:left;animation:drawRule 1.1s cubic-bezier(.65,0,.35,1) .2s forwards;
+}
+@keyframes drawRule{to{transform:scaleX(1)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+/* ---------- NAV ---------- */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:800;
+  display:grid;grid-template-columns:1fr auto 1fr;align-items:center;
+  padding:20px 4vw;background:rgba(250,250,248,.85);backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);
+}
+.brand{font-family:var(--display);font-weight:700;font-size:1.2rem;letter-spacing:-.02em}
+.brand i{color:var(--red);font-style:normal}
+.nav-links{display:flex;gap:6px;justify-self:center}
+.nav-links a{
+  font-size:.82rem;font-weight:500;padding:8px 16px;border-radius:100px;
+  transition:background .25s;
+}
+.nav-links a:hover{background:#EFEFEA}
+.nav-right{justify-self:end;display:flex;align-items:center;gap:18px}
+.nav-status{font-family:var(--mono);font-size:.7rem;color:var(--gray);display:flex;align-items:center;gap:8px}
+.pulse{width:7px;height:7px;border-radius:50%;background:#2BAA5E;animation:pulse 1.8s ease infinite}
+@keyframes pulse{50%{box-shadow:0 0 0 6px rgba(43,170,94,.15)}}
+.btn{
+  display:inline-flex;align-items:center;gap:10px;
+  background:var(--ink);color:#fff;font-weight:500;font-size:.85rem;
+  padding:11px 22px;border-radius:100px;border:none;
+  transition:background .25s,transform .25s;
+}
+.btn:hover{background:var(--red);transform:translateY(-1px)}
+.btn .ar{transition:transform .3s}
+.btn:hover .ar{transform:translateX(4px)}
+@media(max-width:860px){.nav-links,.nav-status{display:none}.nav{grid-template-columns:1fr auto}}
+
+/* ---------- HERO ---------- */
+.hero{padding:19vh 4vw 9vh;position:relative}
+.hero-meta{
+  display:flex;gap:26px;font-family:var(--mono);font-size:.72rem;color:var(--gray);
+  text-transform:uppercase;letter-spacing:.08em;margin-bottom:5vh;
+  opacity:0;transform:translateY(16px);transition:all .8s ease .5s;
+}
+body.ready .hero-meta{opacity:1;transform:none}
+.hero-meta .tag{border:1px solid var(--line);border-radius:100px;padding:6px 14px;background:var(--card)}
+.hero h1{
+  font-family:var(--display);font-weight:600;letter-spacing:-.035em;
+  font-size:clamp(2.8rem,7.6vw,7.2rem);line-height:1.02;max-width:16ch;
+}
+.hero h1 .lw{display:inline-block;overflow:hidden;vertical-align:top}
+.hero h1 .lw>span{display:inline-block;transform:translateY(105%);transition:transform .9s cubic-bezier(.22,1,.36,1)}
+body.ready .hero h1 .lw>span{transform:none}
+.hero h1 .u{position:relative;white-space:nowrap}
+.hero h1 .u::after{
+  content:'';position:absolute;left:0;bottom:8%;width:100%;height:.08em;background:var(--red);
+  transform:scaleX(0);transform-origin:left;transition:transform .8s cubic-bezier(.65,0,.35,1) 1.5s;
+}
+body.ready .hero h1 .u::after{transform:scaleX(1)}
+.hero-row{
+  display:flex;justify-content:space-between;align-items:flex-end;gap:40px;
+  margin-top:7vh;flex-wrap:wrap;
+  opacity:0;transform:translateY(20px);transition:all .9s ease 1s;
+}
+body.ready .hero-row{opacity:1;transform:none}
+.hero-row p{max-width:430px;color:var(--gray);font-size:1.02rem}
+.hero-ctas{display:flex;gap:14px;align-items:center}
+.btn-ghost{
+  font-size:.85rem;font-weight:500;padding:11px 22px;border-radius:100px;
+  border:1px solid var(--line);background:var(--card);transition:border-color .25s;
+}
+.btn-ghost:hover{border-color:var(--ink)}
+
+/* logo strip */
+.logos{
+  border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+  padding:26px 0;overflow:hidden;white-space:nowrap;background:var(--card);
+}
+.logos-track{display:inline-flex;align-items:center;animation:mq 30s linear infinite}
+.logos:hover .logos-track{animation-play-state:paused}
+.logo-item{
+  font-family:var(--display);font-weight:600;font-size:1.15rem;color:#B9B9B3;
+  padding:0 4vw;display:inline-flex;align-items:center;gap:4vw;
+  transition:color .3s;
+}
+.logo-item:hover{color:var(--ink)}
+.logo-item::after{content:'·';color:var(--line)}
+@keyframes mq{to{transform:translateX(-50%)}}
+
+/* ---------- SECTION SHARED ---------- */
+section{padding:14vh 4vw}
+.sec-label{
+  font-family:var(--mono);font-size:.72rem;text-transform:uppercase;letter-spacing:.14em;
+  color:var(--red);display:flex;align-items:center;gap:12px;margin-bottom:4vh;
+}
+.sec-label::before{content:'';width:8px;height:8px;background:var(--red)}
+h2.sec-title{
+  font-family:var(--display);font-weight:600;letter-spacing:-.03em;
+  font-size:clamp(2rem,4.6vw,4rem);line-height:1.06;max-width:20ch;
+}
+
+/* ---------- SPLIT SCROLL (sticky left) ---------- */
+.split{display:grid;grid-template-columns:1fr 1.15fr;gap:6vw;align-items:start}
+.split-left{position:sticky;top:16vh}
+.split-left p{color:var(--gray);margin-top:24px;max-width:400px}
+.split-left .btn{margin-top:34px}
+.steps{display:flex;flex-direction:column;gap:20px}
+.step{
+  background:var(--card);border:1px solid var(--line);border-radius:16px;
+  padding:36px;display:grid;grid-template-columns:auto 1fr;gap:26px;
+  opacity:0;transform:translateY(44px);
+  transition:opacity .8s ease,transform .8s cubic-bezier(.22,1,.36,1),box-shadow .3s,border-color .3s;
+}
+.step.in{opacity:1;transform:none}
+.step:hover{box-shadow:0 14px 40px rgba(17,17,16,.07);border-color:#D6D6D0}
+.step-num{
+  font-family:var(--mono);font-size:.75rem;color:#fff;background:var(--ink);
+  width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  transition:background .3s;
+}
+.step:hover .step-num{background:var(--red)}
+.step h3{font-family:var(--display);font-weight:600;font-size:1.35rem;letter-spacing:-.01em;margin-bottom:10px}
+.step p{color:var(--gray);font-size:.95rem}
+.step .step-tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}
+.step .t{
+  font-family:var(--mono);font-size:.68rem;text-transform:uppercase;letter-spacing:.06em;
+  border:1px solid var(--line);border-radius:100px;padding:5px 12px;color:var(--gray);
+}
+@media(max-width:900px){.split{grid-template-columns:1fr}.split-left{position:static}}
+
+/* ---------- BENTO ---------- */
+.bento{
+  display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:220px;gap:18px;margin-top:7vh;
+}
+.cell{
+  border-radius:18px;padding:30px;position:relative;overflow:hidden;
+  border:1px solid var(--line);background:var(--card);
+  opacity:0;transform:translateY(40px) scale(.98);
+  transition:opacity .8s ease,transform .8s cubic-bezier(.22,1,.36,1);
+  display:flex;flex-direction:column;justify-content:flex-end;
+}
+.cell.in{opacity:1;transform:none}
+.cell .k{
+  font-family:var(--display);font-weight:600;letter-spacing:-.03em;
+  font-size:clamp(2.6rem,4.5vw,4rem);line-height:1;
+}
+.cell .k small{font-size:.45em;color:var(--red);font-weight:600}
+.cell .d{color:var(--gray);font-size:.88rem;margin-top:10px}
+.cell.wide{grid-column:span 2}
+.cell.tall{grid-row:span 2}
+.cell.dark{background:var(--dark);color:#fff;border-color:var(--dark)}
+.cell.dark .d{color:rgba(255,255,255,.55)}
+.cell.red{background:var(--red);color:#fff;border-color:var(--red)}
+.cell.red .d{color:rgba(255,255,255,.75)}
+.cell.red .k small{color:#fff}
+.cell .spark{
+  position:absolute;top:26px;right:26px;font-size:1.2rem;opacity:.6;
+  transition:transform .5s cubic-bezier(.34,1.56,.64,1);
+}
+.cell:hover .spark{transform:rotate(90deg) scale(1.2)}
+.cell .bars{position:absolute;inset:auto 30px 96px 30px;display:flex;gap:8px;align-items:flex-end;height:70px}
+.cell .bars i{
+  flex:1;background:rgba(255,255,255,.2);border-radius:4px 4px 0 0;
+  transform:scaleY(0);transform-origin:bottom;
+  transition:transform .9s cubic-bezier(.22,1,.36,1);
+}
+.cell.in .bars i{transform:scaleY(var(--h))}
+.cell .bars i:nth-child(odd){background:rgba(255,255,255,.4)}
+@media(max-width:900px){
+  .bento{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:560px){
+  .bento{grid-template-columns:1fr}
+  .cell.wide{grid-column:span 1}
+}
+
+/* ---------- CASES (expanding rows) ---------- */
+.cases{border-top:1px solid var(--line);margin-top:6vh}
+.case{
+  display:grid;grid-template-columns:110px 1fr 320px auto;gap:30px;align-items:center;
+  border-bottom:1px solid var(--line);padding:30px 0;
+  transition:padding .45s cubic-bezier(.22,1,.36,1);position:relative;
+}
+.case:hover{padding-top:44px;padding-bottom:44px}
+.case .c-idx{font-family:var(--mono);font-size:.74rem;color:var(--gray)}
+.case .c-name{
+  font-family:var(--display);font-weight:600;letter-spacing:-.02em;
+  font-size:clamp(1.5rem,3.2vw,2.6rem);transition:transform .4s cubic-bezier(.22,1,.36,1);
+}
+.case:hover .c-name{transform:translateX(12px)}
+.case .c-thumb{
+  height:0;border-radius:12px;overflow:hidden;position:relative;
+  transition:height .5s cubic-bezier(.22,1,.36,1);
+}
+.case:hover .c-thumb{height:120px}
+.case .c-thumb div{position:absolute;inset:0}
+.ct1{background:linear-gradient(120deg,#E8380D,#FF8A5C)}
+.ct2{background:linear-gradient(120deg,#111110,#4A4A46)}
+.ct3{background:linear-gradient(120deg,#1F4FE0,#7BA3FF)}
+.ct4{background:linear-gradient(120deg,#0E7A4F,#5BC493)}
+.case .c-go{
+  font-family:var(--mono);font-size:.74rem;text-transform:uppercase;letter-spacing:.1em;
+  display:flex;align-items:center;gap:10px;color:var(--gray);transition:color .3s;
+}
+.case:hover .c-go{color:var(--red)}
+.case .c-go .ar{transition:transform .4s}
+.case:hover .c-go .ar{transform:translate(4px,-4px)}
+@media(max-width:860px){
+  .case{grid-template-columns:1fr auto}
+  .case .c-idx,.case .c-thumb{display:none}
+}
+
+/* ---------- QUOTE ---------- */
+.quote{
+  background:var(--dark);color:#fff;border-radius:26px;margin:0 4vw;
+  padding:12vh 6vw;text-align:center;position:relative;overflow:hidden;
+}
+.quote::before{
+  content:'';position:absolute;width:480px;height:480px;border-radius:50%;
+  background:radial-gradient(circle,rgba(232,56,13,.35),transparent 70%);
+  top:-240px;left:50%;transform:translateX(-50%);
+}
+.quote blockquote{
+  font-family:var(--display);font-weight:500;letter-spacing:-.02em;
+  font-size:clamp(1.5rem,3.4vw,2.7rem);line-height:1.3;max-width:26ch;margin:0 auto;
+  position:relative;
+}
+.quote blockquote .qw{opacity:.18;transition:opacity .3s}
+.quote blockquote .qw.on{opacity:1}
+.quote cite{
+  display:block;margin-top:5vh;font-style:normal;
+  font-family:var(--mono);font-size:.74rem;text-transform:uppercase;letter-spacing:.12em;
+  color:rgba(255,255,255,.5);
+}
+
+/* ---------- FOOTER ---------- */
+.footer{padding:14vh 4vw 4vh}
+.footer-cta{
+  display:flex;justify-content:space-between;align-items:center;gap:30px;flex-wrap:wrap;
+  padding-bottom:9vh;border-bottom:1px solid var(--line);
+}
+.footer-cta h2{
+  font-family:var(--display);font-weight:600;letter-spacing:-.03em;
+  font-size:clamp(2.2rem,5.5vw,4.8rem);line-height:1.04;
+}
+.footer-cta h2 span{color:var(--red)}
+.big-btn{
+  flex-shrink:0;width:150px;height:150px;border-radius:50%;
+  background:var(--ink);color:#fff;border:none;
+  font-family:var(--display);font-weight:600;font-size:1rem;
+  display:flex;align-items:center;justify-content:center;text-align:center;
+  transition:background .3s,transform .4s cubic-bezier(.34,1.56,.64,1);
+}
+.big-btn:hover{background:var(--red);transform:scale(1.1) rotate(-6deg)}
+.footer-bottom{
+  display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;
+  padding-top:26px;font-family:var(--mono);font-size:.7rem;text-transform:uppercase;
+  letter-spacing:.1em;color:var(--gray);
+}
+.footer-bottom .links{display:flex;gap:24px}
+.footer-bottom a:hover{color:var(--ink)}
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.001s!important;transition-duration:.001s!important;transition-delay:0s!important}
+}
+</style>
+</head>
+<body>
+
+<!-- INTRO -->
+<div class="intro">
+  <div class="mark">STRATA<i>.</i></div>
+  <div class="rule"></div>
+</div>
+
+<div class="gridlines">
+  <span></span><span></span><span></span><span></span><span></span>
+</div>
+
+<nav class="nav">
+  <a class="brand" href="#">STRATA<i>.</i></a>
+  <div class="nav-links">
+    <a href="#approach">Approach</a>
+    <a href="#results">Results</a>
+    <a href="#work">Work</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <div class="nav-right">
+    <div class="nav-status"><span class="pulse"></span>Accepting Q4 projects</div>
+    <a href="#contact" class="btn">Book a call <span class="ar">→</span></a>
+  </div>
+</nav>
+
+<main>
+  <!-- HERO -->
+  <header class="hero">
+    <div class="hero-meta">
+      <span class="tag">Brand Strategy</span>
+      <span class="tag">Digital</span>
+      <span class="tag">Growth</span>
+    </div>
+    <h1>
+      <span class="lw"><span style="transition-delay:.5s">Clarity is the</span></span><br>
+      <span class="lw"><span style="transition-delay:.65s">ultimate <span class="u">competitive</span></span></span><br>
+      <span class="lw"><span style="transition-delay:.8s">advantage.</span></span>
+    </h1>
+    <div class="hero-row">
+      <p>STRATA is a strategic brand consultancy. We help ambitious companies define who they are, sharpen how they show up, and turn brand into measurable growth.</p>
+      <div class="hero-ctas">
+        <a href="#work" class="btn-ghost">See the work</a>
+        <a href="#contact" class="btn">Start a project <span class="ar">→</span></a>
+      </div>
+    </div>
+  </header>
+
+  <!-- LOGOS -->
+  <div class="logos">
+    <div class="logos-track" id="logosTrack">
+      <span class="logo-item">Meridian Bank</span>
+      <span class="logo-item">Qamar Group</span>
+      <span class="logo-item">NovaTech</span>
+      <span class="logo-item">Al Dana Holding</span>
+      <span class="logo-item">Pulse Health</span>
+      <span class="logo-item">Vantage RE</span>
+    </div>
+  </div>
+
+  <!-- APPROACH: split scroll -->
+  <section id="approach">
+    <div class="split">
+      <div class="split-left">
+        <div class="sec-label">Our approach</div>
+        <h2 class="sec-title">A method, not a mood board.</h2>
+        <p>Every engagement follows a proven four-phase system. You always know where we are, what's next, and what it's worth.</p>
+        <a href="#contact" class="btn">How we'd approach yours <span class="ar">→</span></a>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">01</div>
+          <div>
+            <h3>Audit & Insight</h3>
+            <p>Market analysis, customer interviews and competitive mapping. We locate the exact gap your brand can own.</p>
+            <div class="step-tags"><span class="t">Research</span><span class="t">Interviews</span><span class="t">Positioning map</span></div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">02</div>
+          <div>
+            <h3>Strategy & Narrative</h3>
+            <p>Positioning, messaging architecture and value proposition — decided with leadership, documented for everyone.</p>
+            <div class="step-tags"><span class="t">Positioning</span><span class="t">Messaging</span><span class="t">Naming</span></div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">03</div>
+          <div>
+            <h3>Identity & Experience</h3>
+            <p>Visual identity, website and key touchpoints designed as one coherent system — built to scale across markets.</p>
+            <div class="step-tags"><span class="t">Identity</span><span class="t">Web</span><span class="t">Guidelines</span></div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">04</div>
+          <div>
+            <h3>Launch & Growth</h3>
+            <p>Rollout planning, campaign creative and performance measurement. Brand equity you can see in the numbers.</p>
+            <div class="step-tags"><span class="t">Rollout</span><span class="t">Campaigns</span><span class="t">Measurement</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESULTS: bento -->
+  <section id="results">
+    <div class="sec-label">Results</div>
+    <h2 class="sec-title">Strategy you can measure.</h2>
+    <div class="bento">
+      <div class="cell wide dark">
+        <span class="spark">✦</span>
+        <div class="bars">
+          <i style="--h:.3"></i><i style="--h:.45"></i><i style="--h:.4"></i><i style="--h:.6"></i>
+          <i style="--h:.55"></i><i style="--h:.75"></i><i style="--h:.7"></i><i style="--h:1"></i>
+        </div>
+        <div class="k"><span data-count="212">0</span><small>%</small></div>
+        <div class="d">Average revenue growth within 12 months of rebrand</div>
+      </div>
+      <div class="cell">
+        <div class="k"><span data-count="90">0</span><small>+</small></div>
+        <div class="d">Brands repositioned across GCC & Europe</div>
+      </div>
+      <div class="cell red">
+        <span class="spark">✳</span>
+        <div class="k"><span data-count="9">0</span><small>.2/10</small></div>
+        <div class="d">Average client satisfaction score, 4 years running</div>
+      </div>
+      <div class="cell">
+        <div class="k"><span data-count="14">0</span><small> days</small></div>
+        <div class="d">From kickoff to a validated strategy on the table</div>
+      </div>
+      <div class="cell wide">
+        <span class="spark">→</span>
+        <div class="k"><span data-count="3">0</span><small>.4×</small></div>
+        <div class="d">Median lift in qualified leads after repositioning — measured, not estimated</div>
+      </div>
+      <div class="cell dark">
+        <div class="k"><span data-count="11">0</small></div>
+        <div class="d">Industry awards for brand & digital work</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WORK: expanding rows -->
+  <section id="work">
+    <div class="sec-label">Selected work</div>
+    <h2 class="sec-title">Recent engagements.</h2>
+    <div class="cases">
+      <a class="case">
+        <span class="c-idx">/2026</span>
+        <span class="c-name">Meridian Bank</span>
+        <span class="c-thumb"><div class="ct1"></div></span>
+        <span class="c-go">Rebrand <span class="ar">↗</span></span>
+      </a>
+      <a class="case">
+        <span class="c-idx">/2025</span>
+        <span class="c-name">Qamar Group</span>
+        <span class="c-thumb"><div class="ct2"></div></span>
+        <span class="c-go">Strategy · Identity <span class="ar">↗</span></span>
+      </a>
+      <a class="case">
+        <span class="c-idx">/2025</span>
+        <span class="c-name">Pulse Health</span>
+        <span class="c-thumb"><div class="ct3"></div></span>
+        <span class="c-go">Digital · Launch <span class="ar">↗</span></span>
+      </a>
+      <a class="case">
+        <span class="c-idx">/2024</span>
+        <span class="c-name">Vantage RE</span>
+        <span class="c-thumb"><div class="ct4"></div></span>
+        <span class="c-go">Positioning · Web <span class="ar">↗</span></span>
+      </a>
+    </div>
+  </section>
+
+  <!-- QUOTE -->
+  <div class="quote">
+    <blockquote id="quoteText">STRATA didn't redesign our logo. They redesigned how the market thinks about us — and our pipeline proved it within two quarters.</blockquote>
+    <cite>— CEO, Meridian Bank</cite>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer" id="contact">
+    <div class="footer-cta">
+      <h2>Ready to build a brand<br>with a <span>point of view?</span></h2>
+      <button class="big-btn" onclick="location.href='mailto:hello@strata.co'">Let's<br>talk ↗</button>
+    </div>
+    <div class="footer-bottom">
+      <div>STRATA. Consultancy — Dubai / Riyadh / London</div>
+      <div class="links"><a href="#">LinkedIn</a><a href="#">Instagram</a><a href="#">X</a></div>
+      <div>© 2026 Strata</div>
+    </div>
+  </footer>
+</main>
+
+<script>
+const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* intro */
+setTimeout(()=>document.body.classList.add('ready'), reduced?50:1500);
+
+/* logos duplicate */
+const lt = document.getElementById('logosTrack');
+lt.innerHTML += lt.innerHTML;
+
+/* reveals */
+const io = new IntersectionObserver(es=>{
+  es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+},{threshold:.18});
+document.querySelectorAll('.step,.cell').forEach((el,i)=>{
+  el.style.transitionDelay = (i%4)*0.1+'s';
+  io.observe(el);
+});
+
+/* counters */
+const cio = new IntersectionObserver(es=>{
+  es.forEach(e=>{
+    if(!e.isIntersecting) return;
+    const el = e.target, target = +el.dataset.count, t0 = performance.now(), dur = 1300;
+    (function step(t){
+      const p = Math.min(1,(t-t0)/dur);
+      el.textContent = Math.floor(target*(1-Math.pow(1-p,3)));
+      if(p<1) requestAnimationFrame(step);
+    })(t0);
+    cio.unobserve(el);
+  });
+},{threshold:.5});
+document.querySelectorAll('[data-count]').forEach(el=>cio.observe(el));
+
+/* quote word fill on scroll */
+const q = document.getElementById('quoteText');
+q.innerHTML = q.textContent.split(' ').map(w=>`<span class="qw">${w}</span>`).join(' ');
+const qws = [...q.querySelectorAll('.qw')];
+function qFill(){
+  const r = q.getBoundingClientRect();
+  const p = Math.min(1, Math.max(0, (innerHeight*0.85 - r.top)/(r.height + innerHeight*0.3)));
+  const n = Math.floor(p*qws.length);
+  qws.forEach((w,i)=>w.classList.toggle('on', i<n));
+}
+addEventListener('scroll', qFill, {passive:true}); qFill();
+</script>
+</body>
+</html>
